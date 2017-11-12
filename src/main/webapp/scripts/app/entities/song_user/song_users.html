@@ -1,0 +1,115 @@
+<div class="row">
+    <div class="col-md-12" infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page" infinite-scroll-distance="1" infinite-scroll-container="'#content'">
+        <h3 class="h3_title">
+            <i class="mdi mdi-heart mdi-36px mdi-sx-orange" aria-hidden="true"></i>
+            <span style="display: inline-flex;vertical-align: text-top;margin-top: -8px;" class="titles">YOUR TRACKS LIKES</span>
+        </h3>
+        <div class="clear"></div>
+        <div ng-cloak class="no-likes" style="display: none;height: 50vh;">
+            <div style="flex: 1; align-self: center;text-align: center;">
+                <h3 class="h3_title"><span style="display: inline-flex;vertical-align: text-top;" class="titles">You don't have any track liked.</span></h3><br>
+                <button class="sx__button" style="font-size: 15px;" ui-sref="charts-top">
+                    <i style="font-size: 24px;" class="mdi mdi-playlist-plus"></i>
+                    <span style="vertical-align: top; line-height: 1.8;">Explore charts</span>
+                </button>
+            </div>
+        </div>
+        <div ng-cloak ng-repeat="song_user in song_users" class="track-box" style="margin-left: 13px;">
+            <div class="track-image">
+                <img ng-src="{{song_user.song.artwork}}" img-preload
+                     style="background: -webkit-linear-gradient(-45deg, rgb(85, 147, 255) 0%, rgb(150, 27, 255) 100%);"/>
+                <!--<div class="controls">
+                    <md-button
+                        ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) != song_user.song.id || playerPlaylist.playlistCurrent != 'fromYourLikes'"
+                        ng-click="playerPlaylist.addSongAll(song_users,mediaPlayer,$index,'fromYourLikes')"
+                        class="md-play" aria-label="play">
+                        <md-icon>
+                            <i class="material-icons">play_arrow</i>
+                        </md-icon>
+                    </md-button>
+                    <md-button
+                        ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) ==  song_user.song.id && playerPlaylist.playlistCurrent == 'fromYourLikes'"
+                        ng-click="mediaPlayer.playPause()" class="md-play" aria-label="play">
+                        <md-icon>
+                            <i ng-if="!mediaPlayer.playing" class="material-icons">play_arrow</i>
+                            <i ng-if="mediaPlayer.playing" class="material-icons">pause</i>
+                        </md-icon>
+                    </md-button>
+                </div>-->
+                <button class="button-options button-play">
+                    <span ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) == song_user.song.id && playerPlaylist.playlistCurrent == 'fromYourLikes'"
+                          ng-click="mediaPlayer.playPause()">
+                        <i style="font-size: 44px!important;" ng-if="!mediaPlayer.playing" class="material-icons">play_arrow</i>
+                        <i style="font-size: 44px!important;" ng-if="mediaPlayer.playing" class="material-icons">pause</i>
+                    </span>
+                    <span ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) != song_user.song.id || playerPlaylist.playlistCurrent != 'fromYourLikes'"
+                          ng-click="playerPlaylist.addSongAll(song_users,mediaPlayer,$index,'fromYourLikes')">
+                        <i style="font-size: 44px!important;" class="material-icons">play_arrow</i>
+                    </span>
+                </button>
+                <div class="stats">
+                    <button class="sx__button like__button active" ng-click="unlike(song_user.song.id)">
+                        <i class="fa fa-heart-o fa-lg"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="info">
+                <h5 ui-sref="song.detail({accessUrl:song_user.song.access_url, user: song_user.song.user.login})">
+                    {{song_user.song.name}}</h5>
+                <h6 ui-sref="user-profile({login:song_user.song.user.login})">{{song_user.song.user.login}}</h6>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+
+    .h3_title{
+        margin-top: 2px;
+    }
+
+    input[type="radio"] {
+        display: none;
+    }
+
+    input[type="radio"] + label {
+    / / color: #292321;
+        color: inherit;
+        font-size: 14px;
+        padding-left: 0px;
+    }
+
+    input[type="radio"] + label span {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        margin: -2px 4px 0 0;
+        vertical-align: middle;
+        cursor: pointer;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+    }
+
+    input[type="radio"] + label span {
+    / / background-color: #292321;
+        background-color: rgba(45, 39, 38, 0.35);
+    }
+
+    input[type="radio"]:checked + label span {
+    / / background-color: #CC3300;
+        background-color: rgb(238, 89, 41);
+    }
+
+    input[type="radio"] + label span,
+    input[type="radio"]:checked + label span {
+        -webkit-transition: background-color 0.4s linear;
+        -o-transition: background-color 0.4s linear;
+        -moz-transition: background-color 0.4s linear;
+        transition: background-color 0.4s linear;
+    }
+
+    input[type="radio"]:checked + label {
+    //color: #6F00F8;
+        color: rgb(238, 89, 41);
+    }
+</style>

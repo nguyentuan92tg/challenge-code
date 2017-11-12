@@ -1,0 +1,151 @@
+<div class="background" ng-if="song.$promise">
+    <img src="{{song.song.artwork}}" alt="" height="100%" width="100%"
+         style="object-fit: cover; filter: blur(22px);width: 102%;margin-top: -45px;height: 112%;position: fixed;">
+</div>
+<div class="row">
+
+</div>
+<div class="row" ng-if="song.$promise">
+    <h2 style="z-index: 222;position: relative; margin-left: 15px;">Stats</h2>
+    <div class="col-md-12">
+        <h4>Graphical stats</h4>
+        <div class="col-md-6" style="background: rgba(29, 29, 29, 0.41);color: #fff;">
+            <!--<nvd3 options="psOptions" data="psData" class="with-3d-shadow with-transitions"></nvd3>-->
+            <soundxtream-single-chart options="chartOptions" style="display: block;padding: 20px;width: 100%;position: relative;"></soundxtream-single-chart>
+        </div>
+        <div class="col-md-6" style="background: rgba(29, 29, 29, 0.41);color: #fff;">
+            <!--<nvd3 options="likesOptions" data="playTracksData" class="with-3d-shadow with-transitions"></nvd3>-->
+            <soundxtream-multiple-chart options="chartOptions2" style="display: block;padding: 20px;width: 100%;position: relative;"></soundxtream-multiple-chart>
+        </div>
+    </div>
+</div>
+<!---->
+<div class="row"  ng-if="song.$promise">
+    <div class="col-md-12">
+        <div class="col-md-6" style="background: rgba(29, 29, 29, 0.41);color: #fff;">
+            <h4>Clustered plays stats</h4>
+            <ng-map id="playmap" class="map-track" zoom-to-include-markers="auto" disable-default-u-i="true"
+                    styles='{{mapStyle}}'>
+                <!--<heatmap-layer id="foo" data="dataTracks"></heatmap-layer>-->
+            </ng-map>
+        </div>
+        <div class="col-md-6" style="background: rgba(29, 29, 29, 0.41);color: #fff;">
+            <h4>Geolocation stats by country</h4>
+            <ng-map ng-model="mapCountry" id="countrymap" id="map-stats" class="map-track" zoom-to-include-markers="auto"
+                    disable-default-u-i="true" styles='{{mapStyle}}'>
+            </ng-map>
+        </div>
+    </div>
+</div>
+
+<style>
+    .map-track {
+        height: 500px;
+    }
+
+    .custom-marker {
+    }
+
+    .custom-marker.my1 {
+        font-size: 2em;
+        padding: 10px;
+        color: rgb(255, 118, 73);
+        background: #fff;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+        border: rgb(255, 118, 73) solid 1px;
+    }
+
+    .custom-marker.my1:after {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: 7px 6px 0;
+        border-color: #fff transparent;
+        display: block;
+        width: 0;
+        z-index: 1;
+        margin-left: -6px;
+        bottom: -6px;
+        left: 50%;
+    }
+
+    .custom-marker.my1:before {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: 7px 6px 0;
+        border-color: rgb(255, 118, 73) transparent;
+        display: block;
+        width: 0;
+        z-index: 0;
+        margin-left: -6px;
+        bottom: -7px;
+        left: 50%;
+    }
+
+    .custom-marker.my12 {
+        font-size: 1em;
+        padding: 10px;
+        color: rgb(255, 118, 73);
+        background: #fff;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+        border: rgb(255, 118, 73) solid 1px;
+    }
+
+    .custom-marker.my12:after {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: 7px 6px 0;
+        border-color: #fff transparent;
+        display: block;
+        width: 0;
+        z-index: 1;
+        margin-left: -6px;
+        bottom: -6px;
+        left: 50%;
+    }
+
+    .custom-marker.my12:before {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: 7px 6px 0;
+        border-color: rgb(255, 118, 73) transparent;
+        display: block;
+        width: 0;
+        z-index: 0;
+        margin-left: -6px;
+        bottom: -7px;
+        left: 50%;
+    }
+
+    .full-screen-map {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 22;
+        bottom: 0;
+        height: 100%;
+    }
+
+    .fullscreen-button {
+        position: fixed;
+        top: 5px;
+        left: 5px;
+        z-index: 23;
+    }
+
+    .tick{
+        color: #fff!important;
+    }
+
+    svg text {
+        fill: white;
+    }
+</style>

@@ -1,0 +1,164 @@
+<div id="menu-container" ng-switch="isAuthenticated()">
+    <div id="logo-container">
+        <div id="logo">
+            <a ui-sref="home" id="logo-link">
+                <!--SX-->
+            </a>
+        </div>
+    </div>
+    <div id="options-menu-container">
+        <ul id="options-list">
+            <li class="option-menu" ng-switch-when="true">
+                <a ui-sref="home">
+                    <span class="mdi mdi-home mdi-36px"></span>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li class="option-menu" ng-switch-when="true">
+                <a ui-sref="feed">
+                    <span class="mdi mdi-history mdi-36px"></span>
+                    <span>Feed</span>
+                </a>
+            </li>
+            <li class="option-menu" ng-switch-when="true">
+                <a ui-sref="library.tracks">
+                    <span class="mdi mdi-library-music mdi-36px"></span>
+                    <span>Your library</span>
+                </a>
+            </li>
+            <li ng-class="{active: vm.$state.includes('admin')}" class="option-menu admin-panel-menu" has-authority="ROLE_ADMIN">
+                <a href="">
+                    <span class="mdi mdi-console mdi-36px"></span>
+                    <span>Admin panel</span>
+                </a>
+                <ul class="submenu-sx closed">
+                    <li>
+                        <a ui-sref="user-management">
+                            <i class="mdi mdi-contacts mdi-18px"></i>
+                            User management
+                        </a>
+                    </li>
+                    <li>
+                        <a ui-sref="metrics">
+                            <i class="mdi mdi-chart-line mdi-18px"></i>
+                            Metrics
+                        </a>
+                    </li>
+                    <li>
+                        <a ui-sref="health">
+                            <i class="mdi mdi-heart-pulse mdi-18px"></i>
+                            Health
+                        </a>
+                    </li>
+                    <li>
+                        <a ui-sref="configuration">
+                            <i class="mdi mdi-settings-box mdi-18px"></i>
+                            Configuration
+                        </a>
+                    </li>
+                    <li>
+                        <a ui-sref="logs">
+                            <i class="mdi mdi-file-document mdi-18px"></i>
+                            Logs
+                        </a>
+                    </li>
+                    <li>
+                        <a ui-sref="docs">
+                            <i class="mdi mdi-book-open mdi-18px"></i>
+                            API / DOCS
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <!--<li class="option-menu" ng-switch-when="true">
+                <a ui-sref="user-profile({login: account.login})">
+                    <span class="mdi mdi-account-box mdi-36px"></span>
+                    <span>User profile</span>
+                </a>
+            </li>-->
+            <li class="option-menu" ng-switch-when="true">
+                <a ui-sref="upload">
+                    <span class="mdi mdi-upload mdi-36px"></span>
+                    <span>Upload</span>
+                </a>
+            </li>
+            <li class="option-menu" ng-switch-when="false">
+                <a ui-sref="login">
+                    <span class="mdi mdi-login-variant mdi-36px"></span>
+                    <span>Login</span>
+                </a>
+            </li>
+            <li class="option-menu" ng-switch-when="false">
+                <a ui-sref="register">
+                    <span class="mdi mdi-account-plus mdi-36px"></span>
+                    <span>Register</span>
+                </a>
+            </li>
+        </ul>
+        <ul id="user-menu-container" ng-switch-when="true">
+            <li class="option-user-menu">
+                <a class="user-image" ui-sref="user-profile({login:account.login})">
+                    <img style="border-radius: 100%;height: 55px;margin-top: -8px;margin-bottom: -30px;display: inline-block;" ng-src="{{account.user_image}}" alt="">
+                </a>
+            </li>
+            <li class="option-user-menu">
+                <a ui-sref="settings">
+                    <span class="mdi mdi-account-settings-variant mdi-24px"></span>
+                </a>
+            </li>
+            <li class="option-user-menu" >
+                <a ng-click="logout()">
+                    <span class="mdi mdi-exit-to-app mdi-24px mdi-red"></span>
+                </a>
+            </li>
+            <li class="option-user-menu" ng-switch-when="true">
+                <a ui-sref="login">
+                    <span class="mdi mdi-exit-to-app mdi-24px mdi-red"></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        var dropdownAdmin = $('.admin-panel-menu > .submenu-sx');
+        var adminMenu = $('.admin-panel-menu');
+
+        $(window).click(function() {
+            if(dropdownAdmin.hasClass("opened")){
+                dropdownAdmin.removeClass("opened");
+                dropdownAdmin.addClass("closed");
+            }
+        });
+
+        $('.admin-panel-menu > .submenu-sx > li').click(function (e) {
+            e.stopPropagation();
+        });
+
+        $('.admin-panel-menu > .submenu-sx > li > a').click(function (e) {
+            if(dropdownAdmin.hasClass("opened")){
+                dropdownAdmin.removeClass("opened");
+                dropdownAdmin.addClass("closed");
+            }
+        });
+
+        adminMenu.click(function(e){
+            e.stopPropagation();
+            if(dropdownAdmin.hasClass("closed")){
+                dropdownAdmin.removeClass("closed");
+                dropdownAdmin.addClass("opened");
+            }else{
+                dropdownAdmin.removeClass("opened");
+                dropdownAdmin.addClass("closed");
+            }
+        });
+    });
+</script>
+<style>
+    .mdi-36px.mdi:before{
+        font-size: 36px;
+        height: 36px;
+        line-height: 35px;
+    }
+</style>

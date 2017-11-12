@@ -1,0 +1,169 @@
+<div class="login-background"></div>
+<div class="login-form-wrapper">
+    <div class="login-wrapper">
+        <form class="login-form" role="form" ng-submit="login($event)">
+            <h3 style="color: #fff;text-align: center;font-family: bebas; font-size: 50px;">Sign in</h3>
+            <div class="form-group">
+                <label for="username" translate="global.form.username">Login</label>
+                <input type="text" class="form-control input-sx" id="username"
+                       placeholder="{{'global.form.username.placeholder' | translate}}" ng-model="username">
+            </div>
+            <div class="form-group">
+                <label for="password" translate="login.form.password">Password</label>
+                <input type="password" class="form-control input-sx" id="password"
+                       placeholder="{{'login.form.password.placeholder' | translate}}"
+                       ng-model="password">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-login" type="submit" translate="global.menu.account.login">Log in</button>
+            </div>
+        </form>
+    </div>
+   <!-- <div class="login-wrapper blur-login">
+        <div class="blur-background"></div>
+    </div>-->
+</div>
+
+<style>
+    html, body{
+        overflow: hidden;
+    }
+    .title-login{
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 233;
+    }
+    .btn-login{
+        color: #fff;
+        background-color: #ff774b;
+        border-color: #ff6736;
+    }
+    .btn-login:hover{
+        color: #fff;
+        background-color: #ff6736;
+        border-color: #ff511f;
+    }
+    .input-sx{
+        background: transparent;
+        border: 1px solid #fff9f2;
+        color: #fff9f2;
+        border-width: 0px 0px 1px;
+        border-radius: 0px;
+        outline: 0;
+        box-shadow: none;
+        transition: 0.4s ease-in;
+    }
+    .input-sx:focus{
+        background: transparent;
+        border: 1px solid #ff3900;
+        border-width: 0px 0px 1.5px;
+        color: #ff3900;
+        border-radius: 0px;
+        outline: 0;
+        box-shadow: none;
+        transition: 0.4s ease-in;
+    }
+    .blur-background{
+        background: url(/assets/images/background-login.png);
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        display: block;
+        background-size: 100%;
+        background-position: center;
+    }
+    .login-wrapper.blur-login {
+        position: absolute;
+        overflow: hidden;
+        filter: blur(7px);
+        z-index: 2;
+    }
+    .login-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        display: block;
+        height: 100vh;
+        min-height: 100vh;
+    / / background-image: linear-gradient(to top right, rgba(13, 13, 13, 0.5), rgba(208, 208, 208, 0.75)), linear-gradient(rgba(221, 126, 28, 0.57) 100 %, transparent), url(/assets/images/background-login.png);
+        background: url('/assets/images/background-login.png');
+        background-size: cover;
+        background-position: center;
+    }
+
+    .login-form-wrapper {
+        display: flex;
+        position: relative;
+        height: 100vh;
+        align-items: center;
+        justify-content: center;
+    }
+
+    aside#nav-container {
+        background: rgba(41, 41, 41, 0.44);
+        z-index: 222;
+    }
+
+    aside#nav-container a {
+        color: #fff !important;
+    }
+
+    .login-wrapper {
+        width: 550px;
+    //height: 300px;
+        height: 328px;
+        position: relative;
+        overflow: hidden;
+        z-index: 3;
+        //background: rgba(3, 4, 6, 0.55);
+        background: rgba(40,43,48,.75);
+    }
+
+    .login-wrapper:after{
+        content: '';
+        position: absolute;
+        top: -30px;
+        left: -30px;
+        right: -30px;
+        bottom: -30px;
+        /*background-image: url(/assets/images/background-login.png);
+        background-size: 120vw;
+        background-position: center;*/
+        -ms-filter: blur(10px);
+        -webkit-filter: blur(10px);
+        filter: blur(10px);
+        z-index: -2;
+    }
+
+    .login-wrapper:before{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.48);
+        z-index: -1;
+    }
+
+    form.login-form {
+        padding: 24px 83px 24px 83px;
+        box-shadow: 0 5px 22px #313131;
+        //padding: 28.5px 83px 30px 83px;
+    }
+
+    form.login-form label{
+        color: #fff;
+    }
+
+    form.login-form button{
+        display: block;
+        width: 120px;
+        margin: 0 auto;
+    }
+</style>

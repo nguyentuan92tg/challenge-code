@@ -1,0 +1,167 @@
+<!--<div layout-gt-sm="row" layout="column">
+    <div flex-gt-sm="50" flex>
+        <div class="playlist-items">
+            <md-list>
+                <md-subheader class="md-header-sx md-no-sticky header_add_track">Your playlists</md-subheader>
+                <md-divider></md-divider>
+                <md-list-item ng-repeat="playlist in playlists" ng-click="add(playlist)" class="noright">
+                    <img alt="{{ playlist.artwork }}" ng-src="{{ playlist.artwork }}" class="md-avatar"/>
+                    <p>{{ playlist.name }}</p>
+                    <span class="md-secondary">ADD</span>
+                </md-list-item>
+            </md-list>
+        </div>
+    </div>
+    <div flex-gt-sm="50" flex>
+        <div class="playlist-create">
+            <md-list>
+                <md-subheader class="md-header-sx md-header header_add_track">No playlist?</md-subheader>
+                <md-divider></md-divider>
+                <input type="text" required class="form-control input_sx_mat" ng-change="checkName()" ng-model="playlistNew.name"
+                       placeholder="Create a playlist">
+                <div ng-show="errorName" class="sx__padding_button">
+                    <span class="error_span" ng-show="errorName">Error: Ya existe una playlist con el nombre {{playlistNew.name}}</span>
+                </div>
+                <button style="margin-left: 10px;margin-top: 3px;margin-bottom: 3px;" class="sx__button" ng-click="create()">Create</button>
+            </md-list>
+        </div>
+    </div>
+</div>-->
+<div>
+    <div class="songPlaylist-modal">
+        <div style="display: flex;">
+            <div class="close-modal mdi mdi-close" ng-click="closeModal()" style="text-align: right;color: #ff6c3e;font-size: 40px;flex: 1;"></div>
+        </div>
+        <h3 style="font-family: bebas; font-size: 40px; color: #ff6c3e;">Create new playlist</h3>
+        <div class="new-playlist" style="flex: 100%;">
+            <input type="text" class="input-sx" placeholder="Give it name" ng-change="checkName()" style="width: 100%;" ng-model="playlistNew.name">
+            <button style="margin-top: 3px;margin-bottom: 3px;" class="sx__button" ng-click="create()">Create</button>
+        </div>
+        <h3 style="font-family: bebas; font-size: 40px; color: #ff6c3e;">Add to playlist</h3>
+        <div class="addPlaylist-playlist-grid">
+            <input type="text" class="input-sx" style="width: 100%;margin-bottom: 5px;" ng-model="search.name" placeholder="Filter playlists">
+            <div ng-repeat="playlist in playlists | filter: search.name:strict" class="addPlaylist-playlist">
+                <div class="addPlaylist-image">
+                    <image-soundxtream class="addPlaylist-artwork-image" image="{{playlist.artwork}}"></image-soundxtream>
+                </div>
+                <div class="addPlaylist-name">
+                    <div>{{playlist.name}}</div>
+                    <div style="color: #e0e0e0; font-size: 15px;"><i class="mdi mdi-timer"></i> {{playlist.full_duration != null ? playlist.full_duration:'0' | toMinSecNum}}</div>
+                    <div style="color: #e0e0e0; font-size: 15px;">{{playlist.songs.length}} {{playlist.songs.length > 1 || playlist.songs.length == 0? 'Tracks':'Track'}}</div>
+
+                </div>
+                <div class="addPlaylist-button">
+                    <button class="sx__button sx__button_addPlaylist" ng-click="add(playlist)">ADD</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .input-sx{
+        background: transparent;
+        border: 1px solid #fff9f2;
+        color: #fff9f2;
+        border-width: 0px 0px 1px;
+        border-radius: 0px;
+        outline: 0;
+        box-shadow: none;
+        transition: 0.4s ease-in;
+    }
+    .input-sx:focus{
+        background: transparent;
+        border: 1px solid #ff3900;
+        border-width: 0px 0px 1.5px;
+        color: #ff3900;
+        border-radius: 0px;
+        outline: 0;
+        box-shadow: none;
+        transition: 0.4s ease-in;
+    }
+    .sx__button.sx__button_addPlaylist{
+        align-self: center;
+    }
+    .addPlaylist-playlist-grid:not(h3){
+        display: block;
+        width: 100%;
+    }
+    .addPlaylist-playlist-grid > .addPlaylist-playlist{
+        max-height: 200px;
+        margin: 0px 0px 10px 0px;
+        display: flex;
+    }
+    .addPlaylist-image{
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+    .addPlaylist-artwork-image{
+        height: 100%;
+        width: 100%;
+        position: relative;
+        background-size: contain;
+        display: block;
+        background-repeat: no-repeat;
+    }
+
+    .modal-dialog {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .modal-content {
+        height: auto;
+        min-height: 100%;
+        border-radius: 0;
+        background-color: rgba(21, 21, 21, 0.81);
+    }
+
+    .error_span {
+        color: #ff2e00;
+    }
+    .list_playlist {
+        height: 260px;
+        overflow-y: scroll;
+    }
+    .input_sx_mat {
+        margin-left: 10px;
+    //width: 97%;
+        width: 93%;
+    }
+    md-list {
+        display: block;
+        padding: 0px 0px 0px 0px;
+    }
+    .header_add_track{
+        background: #f50;
+        color: #fff;
+    }
+
+    .addPlaylist-name {
+        color: #ff6c3e;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        flex: 1;
+        font-size: 20px;
+    }
+
+    .addPlaylist-button{
+        width: 100px;
+        height: 100px;
+        justify-content: center;
+        display: flex;
+    }
+
+    .addPlaylist-playlist:first-of-type{
+        margin-left: 0px;
+    }
+
+    .songPlaylist-modal {
+        width: 500px;
+        margin: 5% auto;
+    }
+
+</style>

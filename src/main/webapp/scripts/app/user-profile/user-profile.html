@@ -1,0 +1,778 @@
+<style>
+    .profile-image span {
+        height: 200px;
+        width: 200px;
+        position: relative;
+        display: block;
+    }
+
+    .visual-profile {
+        height: 100%;
+        width: 100%;
+        padding: 22px 0px;
+    }
+
+    .profile-image {
+        height: 100%;
+        width: 200px;
+        margin: 0 auto;
+        position: relative;
+        border-radius: 100%;
+    }
+
+    .profile-image img {
+        border-radius: 100%;
+        overflow: hidden;
+    }
+
+    .profile-image:before {
+        content: '';
+        position: absolute;
+    / / background: white;
+    / / background: linear-gradient(rgba(0, 0, 0, 0) 31 %, #fff 102 %);
+        top: -10px;
+        left: -10px;
+        bottom: -10px;
+        right: -10px;
+    / / box-shadow: 0 px 13 px 16 px - 12 px rgba(0, 0, 0, .5);
+        border-radius: 100%;
+        /*-webkit-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23);
+        -moz-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23);
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23);*/
+    / / background: #fff;
+    }
+
+    .header-background-mask {
+        /* position: absolute!important;
+         z-index: 2;
+         top: 0;
+         left: 0;
+         border-top: 250px solid transparent;
+         border-right: 50vw rgba(255, 251, 251, 0.69) solid;*/
+
+        position: absolute !important;
+        z-index: 2;
+        top: 82px;
+        left: 0;
+        bottom: 0;
+        border-top: 70px solid transparent;
+    / / border-right: 50 vw rgba(255, 251, 251, 0.69) solid;
+
+        border-right: 50vw rgba(59, 59, 59, 0.51) solid;
+    }
+
+    .track-background-mask-first {
+        position: absolute !important;
+        z-index: 2;
+        top: 200px;
+        left: 0;
+        bottom: 0;
+        border-top: 70px solid transparent;
+        border-right: 27vw rgba(59, 59, 59, 0.51) solid;
+    }
+
+    .track-wrapper {
+        position: relative;
+    }
+
+    .track-background-mask {
+        position: absolute !important;
+        z-index: 2;
+        top: 110px;
+        left: 0;
+        bottom: 0;
+        border-top: 30px solid transparent;
+        border-right: 185px rgba(59, 59, 59, 0.51) solid;
+    }
+
+    .scroll-header {
+        background: rgb(243, 243, 243);
+        position: fixed;
+        top: 0px;
+        left: 100px;
+        z-index: 62;
+        padding: 10px;
+        right: 0;
+        display: block;
+        transform: translate3d(0, -100%, 0);
+        -webkit-transform: translate3d(0, -100%, 0);
+        transition: transform .3s;
+    / / border-bottom: 1 px solid rgba(124, 124, 124, 0.51);
+    }
+
+    .scroll-header-visible {
+        transform: translate3d(0, 0, 0);
+        -webkit-transform: translate3d(0, 0, 0);
+    }
+
+    .topTracks-user-profile {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        background-size: contain;
+        display: block;
+        background-repeat: no-repeat;
+    }
+
+    .topTrack-num-1 {
+        order: 3;
+        width: 200px;
+        height: 200px;
+        align-self: flex-end;
+    }
+
+    .topTrack-num-2 {
+        order: 2;
+        width: 190px;
+        height: 190px;
+        align-self: flex-end;
+    }
+
+    .topTrack-num-3 {
+        order: 4;
+        width: 180px;
+        height: 180px;
+        align-self: flex-end;
+    }
+
+    .topTrack-num-4 {
+        order: 1;
+        width: 160px;
+        height: 160px;
+        align-self: flex-end;
+    }
+
+    .topTrack-num-5 {
+        order: 5;
+        width: 160px;
+        height: 160px;
+        align-self: flex-end;
+    }
+
+    li.topTrack {
+        margin: 8px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .topTrack-position {
+        position: absolute;
+        z-index: 1;
+        margin: 7px;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 0px 5px 0px 5px;
+        color: #fff;
+    }
+
+    .topTrack-plays {
+        position: absolute;
+        bottom: 0;
+        left: 45%;
+        z-index: 1;
+        margin: 7px;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 0px 5px 0px 5px;
+        color: #fff;
+    }
+
+    .topTrack:hover .topTrack-info {
+        transform: translate3d(0, 0, 0);
+    }
+
+    .topTrack-info {
+        transition: all .4s;
+        transform: translate3d(0, -100%, 0);
+    }
+
+    .trackTop-controls button.sx__button.sx_button_player {
+        transform: translate(-50%, -50%);
+        top: 14%;
+        left: 15%;
+    }
+</style>
+<div class="scroll-header">
+    <div style="display: flex;">
+        <div style="height: 50px; width: 50px;border-radius: 50%;margin-right: 15px;">
+            <img src="{{user.user_image}}" width="100%" height="100%" alt="" style="border-radius: 50%;">
+        </div>
+        <div style="flex: 1; display: inline-flex;align-items: center;">
+            <span style="font-size: 20px;">{{user.login}}</span>
+        </div>
+        <div style="display: inline-flex;align-items: center;">
+            <div class="profile-stats-holder" style="position: relative;">
+                    <span>
+                        <button class="sx__button sx_button_follow"
+                                ng-class="{true:'active',false:''}[user.followedByUser]" ng-click="follow(user)">
+                            <i class="mdi mdi-check" ng-if="user.followedByUser"></i>
+                            <i class="mdi mdi-plus" ng-if="!user.followedByUser"></i>
+                            {{ user.followedByUser ? 'Following' : 'Follow' }}
+                        </button>
+                    </span>
+                <div class="profile-stats">
+                    <div class="label-sx" ui-sref="user-profile.following">
+                        <span>{{user.totalFollowers  || '0' }} {{user.totalFollowers == 1 ? 'follower':'followers'}}</span>
+                    </div>
+                    <div class="label-sx" ui-sref="user-profile.following">
+                        <span>{{user.totalFollowing || '0'}} following</span>
+                    </div>
+                    <div class="label-sx">
+                        <span>{{tracksUser.length}} tracks</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <div class="row" style="position: relative;overflow: hidden;margin-bottom: 10px;">
+        <!--<div class="row-header-background"  style="background: url('{{user.profile_header}}');"></div>-->
+        <div class="header-profile" style="position: relative;">
+            <!--<div class="header-background-mask"></div>-->
+            <div profile-header="{{user.login}}" class="header-background"
+                 style="background: url('{{user.profile_header}}');"></div>
+            <div class="header-profile-image">
+                <img src="{{user.user_image}}" alt="" height="100%" width="100%">
+            </div>
+            <div class="header-profile-info">
+                <div class="profile-username">
+                    <span style="font-size: 20px;">{{user.nickname || user.login}}</span>
+                </div>
+                <div></div>
+                <div class="profile-realname" ng-show="user.firstName!= null || user.lastName!=null">
+                    <div><span style="font-size: 18px;">{{user.firstName}} {{user.lastName}}</span></div>
+                </div>
+                <div class="profile-stats-holder">
+                    <span>
+                        <button class="sx__button sx_button_follow"
+                                ng-class="{true:'active',false:''}[user.followedByUser]" ng-click="follow(user)">
+                            <i class="mdi mdi-check" ng-if="user.followedByUser"></i>
+                            <i class="mdi mdi-plus" ng-if="!user.followedByUser"></i>
+                            {{ user.followedByUser ? 'Following' : 'Follow' }}
+                        </button>
+                    </span>
+                    <div class="profile-stats">
+                        <div class="label-sx" ui-sref="user-profile.following">
+                            <span>{{user.totalFollowers  || '0' }} {{user.totalFollowers == 1 ? 'follower':'followers'}}</span>
+                        </div>
+                        <div class="label-sx" ui-sref="user-profile.following">
+                            <span>{{user.totalFollowing || '0'}} following</span>
+                        </div>
+                        <div class="label-sx">
+                            <span>{{tracksUser.length}} tracks</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="user-profile-library">
+        <div class="row" style="display:none;border-bottom: 1px solid rgba(158, 158, 158, 0.31);margin-bottom: 10px;">
+            <div class="col-md-6 col-md-offset-3 col-sm-12">
+                <ul style="list-style: none;padding: 0;">
+                    <div class="titles" style="font-size: 25px;">Popular tracks</div>
+                    <li ng-show="topTracks.length < 1">{{user.login}} don't have any popular track</li>
+                    <li ng-repeat="track in topTracks" class="topTracks" style="display: flex;padding: 5px;"
+                        ng-show="topTracks.length > 0">
+                        <div style="width: 40px;align-self: center;">{{$index+1}}</div>
+                        <div style="width: 40px;height: 40px;align-self: center;margin-right: 5px;">
+                            <image-soundxtream
+                                style="width: 100%; position: relative;height: 100%;overflow: hidden;display: block;background-size: contain;"
+                                image="{{track.song.artwork}}"></image-soundxtream>
+                        </div>
+                        <div style="flex: 1;align-self: center;overflow: hidden;text-overflow: ellipsis;">
+                            {{track.song.name}}
+                        </div>
+                        <div style="min-width: 15%;align-self: center;text-align: right;padding-right: 15px;">
+                            <i class="mdi mdi-play"></i> {{track.plays}}
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row" style="border-bottom: 1px solid rgba(158, 158, 158, 0.31);margin-bottom: 10px;padding-bottom: 10px;">
+            <div class="titles" style="text-align: center;font-size: 30px;"><i class="mdi mdi-trending-up"></i> Popular
+                tracks
+            </div>
+            <ul style="display: flex;padding:0;justify-content: center;list-style: none;">
+                <li ng-repeat="track in topTracks" class="topTrack topTrack-num-{{$index+1}}">
+                    <!--<span class="topTrack-position"></span>-->
+                    <div style="width: 100%;height: 100%;position: relative;">
+                        <image-soundxtream class="topTracks-user-profile"
+                                           image="{{track.song.artwork}}"></image-soundxtream>
+                        <div class="topTrack-info"
+                             style="position: absolute;top:0;left: 0;right: 0;bottom:0;background: rgba(25, 25, 25, 0.82);">
+                           <span
+                               style=" text-align: center;color: #fff; display: flex;align-items: center;height: 100%;padding: 15px;">
+                               <span><a style="text-decoration: none;color:inherit;" href="/#/{{track.song.user.login}}/track/{{track.song.access_url}}">{{track.song.name}}</a></span>
+                           </span>
+                        </div>
+                        <div class="trackTop-controls">
+                            <button class="sx__button sx_button_player"
+                                    ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) == track.song.id && playerPlaylist.playlistCurrent == 'fromTracks'+user.login"
+                                    ng-click="mediaPlayer.playPause()">
+                                <i ng-if="!mediaPlayer.playing" class="mdi mdi-play mdi-24px"></i>
+                                <i ng-if="mediaPlayer.playing" class="mdi mdi-pause mdi-24px"></i>
+                            </button>
+                            <button class="sx__button sx_button_player"
+                                    ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) != track.song.id || playerPlaylist.playlistCurrent != 'fromTracks'+user.login"
+                                    ng-click="playerPlaylist.addSongAll(topTracks,mediaPlayer,$index,'fromTracks'+user.login)">
+                                <i class="mdi mdi-play mdi-24px"></i>
+                            </button>
+                        </div>
+                        <div class="stats">
+                            <h5 style="padding: 4px; cursor: pointer; display: inline-block;width: auto;">
+                                <div class="blur" style="z-index: 1;">
+                                    <div class="background"
+                                         style="background-image: url({{track.song.artwork}});"></div>
+                                </div>
+                                <span style="outline: 0;z-index: 2;position: relative;color: #fff;padding-right: 5px;">
+                                    <i class="mdi mdi-pound"></i> {{$index+1}}
+                                </span>
+                                <span
+                                    style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;">
+                                    <i class="mdi mdi-play"></i>&nbsp; {{track.plays}}
+                                </span>
+                            </h5>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="row"
+             style="border-bottom: 1px solid rgba(158, 158, 158, 0.31);margin-bottom: 10px;padding-bottom: 10px;">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <button class="sx__button sx_button_floated to-left" ui-sref="user-profile.tracks">View all</button>
+                <h3 class="h3_title">
+                    <i class="mdi mdi-bookmark-music mdi-36px mdi-sx-orange" aria-hidden="true"></i>
+                    <span style="display: inline-flex;vertical-align: text-top;margin-top: -8px;" class="titles">{{user.login}}'S TRACKS</span>
+                </h3>
+                <div ng-repeat="songDTO in tracksUser track by songDTO.song.id" class="track-wrapper"
+                     style="background-image: url({{songDTO.song.artwork}});">
+                    <div class="track-container">
+                        <h5 style="cursor: pointer;text-align: center;"
+                            ui-sref="song.detail({accessUrl: songDTO.song.access_url,user: songDTO.song.user.login, id: songDTO.song.id})">
+                            <div class="blur">
+                                <div class="background" style="background-image: url({{songDTO.song.artwork}});"></div>
+                            </div>
+                            <span>{{songDTO.song.name}}</span>
+                        </h5>
+                        <button class="sx__button sx_button_player"
+                                ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) == songDTO.song.id && playerPlaylist.playlistCurrent == 'fromTracks'+user.login"
+                                ng-click="mediaPlayer.playPause()">
+                            <i ng-if="!mediaPlayer.playing" class="mdi mdi-play mdi-24px"></i>
+                            <i ng-if="mediaPlayer.playing" class="mdi mdi-pause mdi-24px"></i>
+                        </button>
+                        <button class="sx__button sx_button_player"
+                                ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) != songDTO.song.id || playerPlaylist.playlistCurrent != 'fromTracks'+user.login"
+                                ng-click="playerPlaylist.addSongAll(tracksUser,mediaPlayer,$index,'fromTracks'+user.login)">
+                            <i class="mdi mdi-play mdi-24px"></i>
+                        </button>
+                        <div class="stats">
+                            <h5 style="padding: 4px; cursor: pointer; display: inline-block;width: auto;">
+                                <div class="blur" style="z-index: 1;">
+                                    <div class="background"
+                                         style="background-image: url({{songDTO.song.artwork}});"></div>
+                                </div>
+                                <span
+                                    style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;"
+                                    ng-if="$index == 0">
+                                    Newest
+                                </span>
+                                <span
+                                    style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;">
+                                    <i class="mdi mdi-play"></i>&nbsp; {{songDTO.plays}}</span>
+                                <span
+                                    style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;"
+                                    ng-style="{color : ((songDTO.liked) && '#ff6533') || '#fff'}"
+                                    ng-click="like(songDTO.song.id)">
+                                    <i class="fa fa-heart-o"></i>&nbsp; {{songDTO.totalLikes}}
+                                </span>
+                                <span
+                                    style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;"
+                                    ng-style="{color : ((songDTO.shared) && '#ff6533') || '#fff'}"
+                                    ng-click="share(songDTO.song.id)">
+                                    <i class="fa fa-retweet"></i>&nbsp; {{songDTO.totalShares}}
+                                </span>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row"
+             style="border-bottom: 1px solid rgba(158, 158, 158, 0);margin-bottom: 10px;padding-bottom: 10px;">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h3 class="h3_title">
+                    <i class="mdi mdi-playlist-play mdi-36px mdi-sx-orange" aria-hidden="true"></i>
+                    <span style="display: inline-flex;vertical-align: text-top;margin-top: -8px;" class="titles">{{user.login}}'S PLAYLISTS</span>
+                </h3>
+                <div ng-repeat="playlistDTO in playlistsUser track by playlistDTO.playlist.id" class="allList">
+                    <div class="options options-playlist">
+                        <h5 style="padding: 4px; cursor: pointer; display: inline-block;width: auto;">
+                            <div class="blur" style="z-index: 1;">
+                                <div class="background"
+                                     style="background-image: url({{playlistDTO.playlist.artwork}});"></div>
+                            </div>
+                            <span style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;"
+                                  ng-style="{color : ((playlistDTO.liked) && '#ff6533') || '#fff'}"
+                                  ng-click="likePlaylist(playlistDTO.playlist.id)">
+                                <i class="fa fa-heart-o"></i>&nbsp; {{playlistDTO.totalLikes}}
+                            </span>
+                        </h5>
+                    </div>
+                    <div class="firstImages" style="background-color: black;"
+                         ui-sref="playlist.detail({id: playlistDTO.playlist.id})">
+                        <div class="blur">
+                            <div ng-if="playlistDTO.playlist.artwork == null" class="background"
+                                 style="background-image: url({{playlistDTO.playlist.songs[0].artwork}});"></div>
+                            <div ng-if="playlistDTO.playlist.artwork != null" class="background"
+                                 style="background-image: url({{playlistDTO.playlist.artwork}});"></div>
+                        </div>
+                        <div ng-if="playlistDTO.playlist.artwork == null">
+                            <img ng-src="{{playlistDTO.playlist.songs[1].artwork}}"
+                                 ng-if="playlistDTO.playlist.songs.length >= 2" img-preload class="secondArt" alt="">
+                            <img ng-src="{{playlistDTO.playlist.songs[2].artwork}}"
+                                 ng-if="playlistDTO.playlist.songs.length >= 3" img-preload class="thirdArt" alt="">
+                            <img ng-src="{{playlistDTO.playlist.songs[0].artwork}}"
+                                 ng-if="playlistDTO.playlist.songs.length >= 1" img-preload class="firstArt" alt="">
+                        </div>
+                        <div ng-if="playlistDTO.playlist.artwork != null">
+                            <img ng-src="{{playlistDTO.playlist.songs[0].artwork}}"
+                                 ng-if="playlistDTO.playlist.songs.length >= 1" img-preload class="secondArt" alt="">
+                            <img ng-src="{{playlistDTO.playlist.songs[1].artwork}}"
+                                 ng-if="playlistDTO.playlist.songs.length >= 2" img-preload class="thirdArt" alt="">
+                            <img ng-src="{{playlistDTO.playlist.artwork}}" img-preload class="firstArt" alt="">
+                        </div>
+                        <div class="infoList">
+                            <p style="font-size: 17px;"><b>{{playlistDTO.playlist.name}}</b></p>
+                            <p style="font-size: 11px;">{{playlistDTO.playlist.songs.length}} TRACKS </p>
+                        </div>
+                    </div>
+                    <!--<button class="button-options button-play">
+                        <span
+                            ng-if="playerPlaylist.getPlaylist(mediaPlayer.currentTrack) == playlistDTO.playlist.id && playerPlaylist.playlistCurrent == 'fromYourPlaylists'"
+                            ng-click="mediaPlayer.playPause()">
+                            <i style="font-size: 44px!important;" ng-if="!mediaPlayer.playing"
+                               class="material-icons">play_arrow</i>
+                            <i style="font-size: 44px!important;" ng-if="mediaPlayer.playing" class="material-icons">pause</i>
+                        </span>
+                        <span
+                            ng-if="playerPlaylist.getPlaylist(mediaPlayer.currentTrack) != playlistDTO.playlist.id || playerPlaylist.playlistCurrent != 'fromYourPlaylists'"
+                            ng-click="playerPlaylist.playSetOfPlaylists(playlists,mediaPlayer,$index,'fromYourPlaylists')">
+                            <i style="font-size: 44px!important;" class="material-icons">play_arrow</i>
+                        </span>
+                    </button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .topTracks:hover {
+        background: rgba(158, 158, 158, 0.31);
+    }
+
+    .card-prof {
+        -webkit-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23); /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+        -moz-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23); /* Firefox 3.5 - 3.6 */
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23);
+    }
+
+    .user-profile-library {
+        width: 1265px;
+        margin: 0 auto;
+    }
+
+    .btn-upload-over {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .h5-title-info {
+        border-width: 0px 0px 0px 6px;
+        border-color: #6F00F8;
+        border-style: solid;
+        padding: 12px;
+        background: rgba(111, 0, 248, 0.13);
+        display: inline-block;
+        width: 400px;
+        border-radius: 0px 2px 62px 0px;
+    }
+
+    .track-container .blur > .background {
+        top: 0 !important;
+        bottom: 0 !important;
+    }
+
+    @media (max-width: 1368px) {
+        .track-wrapper {
+        / / width: 350 px;
+            /*width: 175px;
+            height: 175px;*/
+            width: 220px !important;
+            height: 220px;
+        }
+    }
+
+    /*@media (min-width: 1280px){
+        .h3_title+.track-wrapper{
+            !*width: 350px;
+            height: 350px;*!
+            width: 370px!important;;
+            height: 370px!important;;
+            float: left!important;
+        }
+
+        .h3_title+.track-wrapper:before {
+            display: block;
+            content: "";
+            width: 100%;
+            padding-top: 50.1%;
+        }
+    }*/
+
+    .track-wrapper:before {
+        display: block;
+        content: "";
+        width: 100%;
+        padding-top: 0;
+    }
+
+    .track-container > h5 {
+        width: 100%;
+    / / margin-top: - 100 %;
+        transition: all 0.4s ease;
+    }
+
+    .track-container {
+        overflow: hidden;
+    }
+
+    .latest_badge {
+        background: #ff5d29;
+        font-size: 22px;
+        position: absolute;
+        bottom: 10px;
+    / / box-shadow: 0 px 5 px #d23b0b;
+        border-radius: 3px;
+        text-transform: capitalize;
+    }
+
+    .options-playlist {
+        top: 4px;
+    }
+
+    /*.track-container:hover > h5{
+        margin-top: 0px;
+        transition: all 0.4s ease;
+    }*/
+    .sx_button_bottom {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        background: #ff5d29;
+        color: white;
+        border-color: #ff5d29;
+    }
+
+    @media (max-width: 768px) {
+        .track-wrapper {
+            width: 100%;
+            height: auto;
+        }
+
+        .track-wrapper:before {
+            display: block;
+            content: "";
+            width: 100%;
+            padding-top: 56.25% !important;
+        }
+    }
+
+    .sx__button.sx_button_floated.to-left {
+        left: 1053px;
+    }
+
+    button.sx__button.sx_button_player {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-45%, -45%);
+        background: #ff5d29;
+        color: white;
+        border-color: #ff5d29;
+        border-radius: 100%;
+        height: 42px;
+        width: 42px;
+        padding-top: 6px;
+        padding-left: 8.5px;
+    }
+
+    button.sx__button.sx_button_player:hover {
+        border-radius: 100% !important;
+        height: 42px;
+        width: 42px;
+        padding-top: 6px !important;
+        padding-left: 8.5px !important;
+    }
+
+    .stats {
+        position: absolute;
+        bottom: 0px;
+        left: 0;
+        transition: left .4s ease;
+        width: 100%;
+        padding: 10px;
+    }
+
+    /*.track-container:hover .stats{
+        left: 0px;
+        padding: 10px;
+        transition: left .4s ease;
+
+        bottom: 0px;
+        background: rgba(0,0,0,.78);
+        width: 100%;
+    }*/
+
+    button.sx__button.sx_button_locked {
+        background: #989898;
+        color: #fff;
+        border: 1px solid rgba(0, 0, 0, .2);
+    }
+
+    button.sx__button.sx_button_locked:hover {
+        background: #808080 !important;
+        color: #fff !important;
+        border: 1px solid rgba(0, 0, 0, .2) !important;
+    }
+
+    .track-wrapper:not(:first-child) {
+        height: 220px;
+        width: 220px;
+    }
+
+    .header-profile * {
+        vertical-align: top;
+        position: relative;
+    }
+
+    .header-profile-image {
+        width: 200px;
+        height: 200px;
+        border-radius: 100%;
+        overflow: hidden;
+        display: inline-block;
+        z-index: 22;
+    }
+
+    .header-profile-info {
+        /*display: inline-block;
+        position: relative;
+        !*height: 200px;
+        max-height: 200px;*!
+        min-height: 265px;
+        height: 265px;
+        max-height: 100%;
+        width: 62%;
+        overflow: hidden;
+        max-width: 100vw;
+        padding-left: 20px;
+        z-index: 222;*/
+
+        display: inline-block;
+        position: relative;
+        min-height: 220px;
+        height: 305px;
+        max-height: 220px;
+        width: 62%;
+        overflow: hidden;
+        max-width: 100vw;
+        padding-left: 20px;
+        z-index: 222;
+    }
+
+    .header-profile-info > div:not(.header-profile-background) {
+        z-index: 22;
+    }
+
+    .profile-stats-holder {
+        position: absolute;
+        bottom: 0;
+        display: flex;
+        padding: 3px 5px 3px 5px;
+        background: rgba(0, 0, 0, .5);
+        right: 0;
+    }
+
+    .profile-stats-holder span:nth-child(1) {
+        align-self: center;
+    }
+
+    .label-sx {
+        position: relative;
+        display: inline-block;
+        padding: 5px 10px 5px 10px;
+        color: #FFF;
+    }
+
+    .profile-username {
+        display: inline-block;
+        width: auto;
+        margin-top: 15px;
+    / / background: rgba(0, 0, 0, 0.7);
+        padding: 8px 10px 8px 10px;
+        color: #FFF;
+        background: rgba(0, 0, 0, .5);
+    }
+
+    .profile-realname {
+        display: inline-block;
+        width: auto;
+        margin-top: 2px;
+        padding: 8px 10px 8px 10px;
+    / / background: rgba(0, 0, 0, 0.7);
+        color: #FFF;
+        background: rgba(0, 0, 0, .5);
+    }
+
+    /*.header-background{
+        position: absolute;
+        height: 104%;
+        width: 102%;
+        top: -5px;
+        left: -5px;
+        background-size: 100%!important;
+       // background-attachment: fixed!important;
+        background-position: center center!important;
+        filter: blur(10px);
+        z-index: 1;
+        bottom: 0px;
+        right: 0px;
+    }*/
+
+    .header-background {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        /* top: -5px; */
+        /* left: -5px; */
+        background-size: 100% !important;
+        background-position: center center !important;
+        /* filter: blur(10px); */
+        z-index: 1;
+        bottom: 0px;
+        right: 0px;
+    }
+
+    .allList {
+        /* width: 500px; */
+        width: 315px;
+        position: relative;
+        display: inline-block;
+        overflow: hidden;
+        margin-bottom: -4px;
+    }
+</style>

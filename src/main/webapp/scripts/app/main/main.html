@@ -1,0 +1,390 @@
+<style>
+    #resultSearch{
+        position: relative;
+        height: auto;
+        overflow-y: auto;
+        max-height: 350px;
+        color: #fff;
+        max-width: 500px;
+        border-radius: 0px 0px 5px 5px;
+        background: rgb(255, 120, 77);
+    }
+
+    ::-webkit-scrollbar {
+        display: none;
+    }
+
+    #resultSearch::-webkit-scrollbar {
+        width: 12px;
+    }
+    #resultSearch::-webkit-scrollbar {
+        width: 6px;
+    }
+    #resultSearch::-webkit-scrollbar-track {
+        border-radius: 10px;
+        background: #eee;
+    }
+    #resultSearch::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background: #888;
+    }
+    #resultSearch::-webkit-scrollbar-thumb:window-inactive {
+        background: rgba(100,100,100,0.4);
+    }
+    #inputor{
+        width: 500px;
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+        outline: 0!important;
+        background: #333;
+        color: #fff;
+        border-bottom-width: 0;
+        border-color: rgba(255,255,255,0.2);
+    }
+
+    #inputor:focus{
+        outline: 0;
+    }
+    .search-row {
+        padding: 10px;
+        max-width: 100%;
+        width: 100%;
+        height: 38px;
+        display: block;
+    }
+    .search-row *{
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 100%;
+        display: inline-block;
+        max-width: 100%;
+        overflow: hidden;
+
+        height: 100%;
+        line-height: 19px;
+        background: none;
+    }
+
+    .search-row:hover{
+        background: rgb(255, 105, 57);
+    }
+
+    #search-wrapper{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%);
+        z-index: 222;
+    }
+    .title_app{
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+    .page-content{
+        display: flex;
+        align-content: center;
+    }
+
+    .playlist-box{
+        height: 180px;
+        width: 180px;
+        display: inline-block;
+    }
+    .playlist-image {
+        height: 100%;
+        width: 100%;
+    }
+    .playlist-image img{
+        width: 100%;
+        height:100%;
+    }
+</style>
+<div class="hero-nav">
+    <div class="hero-nav__inner" style="width: 100%;padding-top: 100px;">
+        <div style=" position: absolute;top: -236px; left: 0; padding: 130px;">
+            <img src="assets/images/soundxtream_logo.png" width="100%" height="auto" alt="logo_header">
+        </div>
+        <div id="search-wrapper">
+            <input id="inputor" my-enter="go()" placeholder="Search" type="text" ng-model="searchQuery" ng-change="search(searchQuery)" class="form-control"/>
+            <div id="resultSearch" ng-if="searchQuery.length > 0">
+                <div ng-repeat="result in resultsSearch" class="search-row" style="cursor: pointer;">
+                    <div ng-if="result.name == undefined">
+                        <span ng-if="result.access_url == undefined" ui-sref="user-profile({login: result.login})">
+                            <span style="width: auto!important;margin-right: 5px;font-size: 20px;font-size: 20px;" class="mdi mdi-account"></span>
+                            <span style="vertical-align: top;">{{result.login}}</span>
+                        </span>
+                    </div>
+                    <div ng-if="result.name != undefined">
+                        <span ng-if="result.access_url == undefined" ui-sref="playlist.detail({id: result.id})">
+                            <span style="width: auto!important;margin-right: 5px;font-size: 20px;vertical-align: top;" class="mdi mdi-playlist-play"></span>
+                            <span style="vertical-align: top;">{{result.name}} by {{result.user.login}}</span>
+                        </span>
+                        <span ng-if="result.access_url != undefined"
+                              ui-sref="song.detail({accessUrl: result.access_url,user: result.user.login, id: result.id})">
+                            <span style="width: auto!important;margin-right: 5px;font-size: 20px;font-size: 20px;" class="mdi mdi-music-box-outline"></span>
+                            <span style="vertical-align: top;">{{result.name}} by {{result.user.login}}</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="nav_down_btn"><i class="mdi mdi-arrow-down nav_down_btn_i"></i></div>
+    </div>
+</div>
+<style>
+    .nav_down_btn{
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        display: block;
+        //transform: translate(-50%,0%);
+        animation: smallBigAnimation infinite 1.5s;
+        -webkit-animation: smallBigAnimation infinite 1.5s;
+        -moz-animation: smallBigAnimation infinite 1.5s;
+        transition: opacity, transform .4s ease;
+        cursor: pointer;
+    }
+
+    @keyframes smallBigAnimation {
+        0%{
+            opacity: 0.7;
+            transform: translateY(0%);
+        }
+        50%{
+            opacity: 1;
+            transform: translateY(-20%);
+        }
+        100%{
+            opacity: 0.7;
+            transform: translateY(0%);
+        }
+    }
+
+    .nav_down_btn i.nav_down_btn_i {
+        color: white;
+        line-height: 0px;
+        height: 40px;
+        width: 40px;
+        font-size: 40px;
+        display: inline-block;
+        position: relative;
+    }
+</style>
+<div class="page-content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div style="position: relative;">
+                <h4 style="display: inline-block;" class="titles">15 most listened tracks</h4>
+                <button class="sx__button sx__button__primary sx_button_floated" ui-sref="charts-top" style="margin-top: 8px;">View all</button>
+            </div>
+            <div ng-repeat="songDTO in tracks track by songDTO.song.id" class="track-wrapper" style="background-image: url({{songDTO.song.artwork}});">
+                <div class="track-container">
+                    <h5 style="cursor: pointer;text-align: center;"
+                        ui-sref="song.detail({accessUrl: songDTO.song.access_url,user: songDTO.song.user.login, id: songDTO.song.id})">
+                        <div class="blur">
+                            <div class="background" style="background-image: url({{songDTO.song.artwork}});"></div>
+                        </div>
+                        <span>{{songDTO.song.name}}</span>
+                    </h5>
+                    <button class="sx__button sx_button_player" ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) == songDTO.song.id && playerPlaylist.playlistCurrent == 'fromMain'"
+                            ng-click="mediaPlayer.playPause()">
+                        <i ng-if="!mediaPlayer.playing" class="mdi mdi-play mdi-24px"></i>
+                        <i ng-if="mediaPlayer.playing" class="mdi mdi-pause mdi-24px"></i>
+                    </button>
+                    <button class="sx__button sx_button_player" ng-if="playerPlaylist.getSongId(mediaPlayer.currentTrack) != songDTO.song.id || playerPlaylist.playlistCurrent != 'fromMain'"
+                            ng-click="playerPlaylist.addSongAll(tracks,mediaPlayer,$index,'fromMain')">
+                        <i class="mdi mdi-play mdi-24px"></i>
+                    </button>
+                    <div class="options">
+                       <!-- <button class="sx__button like__button"
+                                ng-class="{true:'sx__button active',false:'sx__button sx_button_normal'}[songDTO.liked]"
+                                ng-click="like(songDTO.song.id)">
+                            <i class="fa fa-heart-o fa-lg"></i>
+                        </button>
+                        <button class="sx__button like__button"
+                                ng-class="{true:'sx__button active',false:'sx__button sx_button_normal'}[songDTO.shared]"
+                                ng-click="share(songDTO.song.id)">
+                            <i class="fa fa-retweet fa-lg" aria-hidden="true"></i>
+                        </button>-->
+                        <h5 style="padding: 4px; cursor: pointer; display: inline-block;width: auto;">
+                            <div class="blur" style="z-index: 1;">
+                                <div class="background" style="background-image: url({{songDTO.song.artwork}});"></div>
+                            </div>
+                            <span style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;" >
+                                <i class="mdi mdi-play"></i>&nbsp; {{songDTO.plays}}</span>
+                            <span style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;"
+                                  ng-style="{color : ((songDTO.liked) && '#ff6533') || '#fff'}"
+                                  ng-click="like(songDTO.song.id)">
+                                <i class="fa fa-heart-o"></i>&nbsp; {{songDTO.totalLikes}}
+                            </span>
+                            <span style="outline: 0;z-index: 2;position: relative;color: #ff6533;padding-right: 5px;"
+                                  ng-style="{color : ((songDTO.shared) && '#ff6533') || '#fff'}"
+                                  ng-click="share(songDTO.song.id)">
+                                <i class="fa fa-retweet"></i>&nbsp; {{songDTO.totalShares}}
+                            </span>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hero-nav {
+        /*position: relative;
+        top: 0;
+        right: 0;
+
+        bottom: 0;
+        left: 0;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        align-items: center;
+        height: 400px;
+        min-height: 105px;
+        background-image:url('/assets/images/wallmountains.jpg');
+        //background-image: url(https://images.unsplash.com/photo-1442606383395-175ee96ed967?q=80&fm=jpg&s=5c8c74be9bc91b47c79a1aaf92264be5);
+        background-size: cover;
+        background-position: center;
+        overflow: hidden;*/
+
+        position: relative;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        display: -webkit-box;
+        /* display: -webkit-flex; */
+        display: -ms-flexbox;
+        /* display: flex; */
+        /* -webkit-box-pack: center; */
+        /* -webkit-justify-content: center; */
+        -ms-flex-pack: center;
+        /* justify-content: center; */
+        /* -webkit-box-align: center; */
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        /* align-items: center; */
+        //height: 450px;
+        height: 100vh;
+        min-height: 100vh;
+        background: url('/assets/images/background_main.jpg');
+        background-attachment: fixed;
+        background-size: cover;
+        background-position: bottom center;
+        //overflow: hidden;
+    }
+    .hero-nav .hero-nav__inner {
+        z-index: 1;
+    }
+    .hero-nav__inner{
+        background: rgba(0,0,0,.5);
+    }
+    .hero-nav h1 {
+        color: #efefef;
+        font-size: 5vw;
+    }
+    .hero-nav.fixme:before {
+        background: rgba(0, 0, 0, 0.8);
+    }
+
+    .track-wrapper{
+        position: relative;
+    }
+
+    @media (max-width: 1368px){
+        .track-wrapper {
+        //width: 350px;
+            /*width: 175px;
+            height: 175px;*/
+            width: 220px!important;
+            height: 220px;
+        }
+    }
+
+    .track-wrapper:before {
+        display: block;
+        content: "";
+        width: 100%;
+        padding-top: 0;
+    }
+
+    @media (max-width: 768px){
+        .track-wrapper{
+            width: 100%;
+            height: auto;
+        }
+        .track-wrapper:before{
+            display: block;
+            content: "";
+            width: 100%;
+            padding-top: 56.25%!important;
+        }
+    }
+
+    .track-wrapper:not(:first-child){
+        height: 220px;
+        width: 220px;
+    }
+
+    button.sx__button.sx_button_player {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-45%, -45%);
+        background: #ff5d29;
+        color: white;
+        border-color: #ff5d29;
+        border-radius: 100%;
+        height: 42px;
+        width: 42px;
+        padding-top: 6px;
+        padding-left: 8.5px;
+    }
+
+    button.sx__button.sx_button_player:hover{
+        border-radius: 100%!important;
+        height: 42px;
+        width: 42px;
+        padding-top: 6px!important;
+        padding-left: 8.5px!important;
+    }
+
+    .sx__button.sx_button_floated.to-left{
+        left: 1053px;
+    }
+
+    button.sx__button.sx_button_player {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-45%, -45%);
+        background: #ff5d29;
+        color: white;
+        border-color: #ff5d29;
+        border-radius: 100%;
+        height: 42px;
+        width: 42px;
+        padding-top: 6px;
+        padding-left: 8.5px;
+    }
+
+    button.sx__button.sx_button_player:hover{
+        border-radius: 100%!important;
+        height: 42px;
+        width: 42px;
+        padding-top: 6px!important;
+        padding-left: 8.5px!important;
+    }
+</style>
